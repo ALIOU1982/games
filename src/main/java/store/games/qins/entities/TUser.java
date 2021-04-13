@@ -41,7 +41,7 @@ public class TUser implements Serializable{
 	  inverseJoinColumns = @JoinColumn(name = "user_friend_id"))
 	List<TUser> friend = new ArrayList<TUser>();
 	
-	@OneToMany(mappedBy="user", targetEntity=TGames.class,  fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="user", targetEntity=TGames.class,  fetch = FetchType.LAZY, cascade=CascadeType.REMOVE)
 	List<TGames> games = new ArrayList<>();
 	
 	public TUser(Long id, String userName, String email){

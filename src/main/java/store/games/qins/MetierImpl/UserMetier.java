@@ -24,13 +24,11 @@ public class UserMetier implements IUserMetier {
 	
 
 	@Override
-	//Tout marche
 	public List<TUser> allUsers() {
 		return tUserRepository.findAll();
 	}
 
 	@Override
-	//Tout marche
 	public void saveUsers(TUser tUser) {
 		tUserRepository.save(tUser);
 	}
@@ -42,10 +40,8 @@ public class UserMetier implements IUserMetier {
 	}
 
 	@Override
-	//Tout marche
 	public List<TGames> userbyGames(Long idUser) {
-		//tUserRepository.listeGamesByUser(tUser);
-		return tUserRepository.listeGamesByUser(tUserRepository.findById(idUser).get());
+		return tUserRepository.listeGamesByUser(findById(idUser));
 	}
 
 	@Override
@@ -64,15 +60,11 @@ public class UserMetier implements IUserMetier {
 	}
 
 	@Override
-	//Tout marche
 	public void deleteUser(Long idUser) {
 		List<TUser> friend = tUserRepository.listeFriendsOfUser(idUser);
-		System.out.println("ICI 1");
 		friend.forEach(item->{
 			try {
-				System.out.println("ICI 2");
 				deleteFiendsOfUser(idUser, item.getId());
-				System.out.println("ICI 3");
 			} catch (UserException e) {
 				e.getCause();
 				e.getMessage();
@@ -83,13 +75,11 @@ public class UserMetier implements IUserMetier {
 	}
 
 	@Override
-	//Tout marche
 	public List<TUser> allFriendsByUser(Long idUser) {
 		return tUserRepository.listeFriendsOfUser(idUser);
 	}
 
 	@Override
-	// Tout marche
 	public void saveFriendsOfUser(Long idUser, Long idFriends) throws UserException {
 		if(idUser.equals(idFriends))
 			throw new UserException("Un user ne peut pas être son propre ami");
@@ -106,17 +96,14 @@ public class UserMetier implements IUserMetier {
 	}
 
 	@Override
-	//Tout marche
 	public void deleteFiendsOfUser(Long idUser, Long idFriends) throws UserException {
-		/*if(idUser.equals(idFriends)){
+		if(idUser.equals(idFriends)){
 			throw new UserException("Un user ne peut pas être son propre ami");
-		}*/
-		//System.out.println("ICI 21");
+		}
 		TUser tUser = tUserRepository.findById(idUser).get();
 		TUser tFriends = tUserRepository.findById(idFriends).get();
 		List<TUser> lFriends = tUserRepository.listeFriendsOfUser(idUser);
 		List<TUser> lUser = new ArrayList<TUser>();
-		//lFriends.remove(tUserRepository.findById(idFriends).get());
 		lFriends.forEach(item->{
 			if(!item.getId().equals(idFriends))
 				lUser.add(item);
@@ -135,18 +122,14 @@ public class UserMetier implements IUserMetier {
 	}
 
 	@Override
-	//Tout marche
 	public void saveGamesOfUser(Long idUser, TGames tGames) throws UserException {
 		TUser tUser = tUserRepository.findById(idUser).get();
-		//if(tUser.getGames().contains(tGames))
-			//throw new UserException("L'utilisateur a déjà ce jeu");
 		tGamesRepository.save(tGames);
 		List<TGames> lGames = new ArrayList<TGames>();
 		lGames.add(tGames);
 		tUser.setGames(lGames);
 		tUserRepository.save(tUser);
 		tGames.setUser(tUser);
-		tGamesRepository.save(tGames);
-		
+		tGamesRepository.save(tGames);		
 	}
 }

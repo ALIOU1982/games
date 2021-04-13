@@ -13,26 +13,26 @@ import store.games.qins.iMetier.IGamesMetier;
 public class GamesMetier implements IGamesMetier{
 
 	@Autowired
-	TGamesRepository gameRepository;
+	TGamesRepository gamesRepository;
 	
 	@Override
 	public TGames findById(Long id) {
-		return gameRepository.getOne(id);
+		return gamesRepository.findById(id).get();
 	}
 
 	@Override
 	public List<TGames> allGames() {
-		return gameRepository.findAll();
+		return gamesRepository.findAll();
 	}
 
 	@Override
 	public void saveGame(TGames games) {
-		gameRepository.save(games);
+		gamesRepository.save(games);
 	}
 
 	@Override
 	public void deleteGame(Long idGames) {
-		gameRepository.deleteById(idGames);
+		gamesRepository.deleteById(idGames);
 	}
 
 }

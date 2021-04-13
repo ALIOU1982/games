@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,14 +38,22 @@ public class TGames implements Serializable{
 	private TUser user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn( name="id_Store", nullable=false)
+	@JoinColumn( name="id_Store", nullable=true)
+	@JsonBackReference
 	private TStore store;
-	/*
+	
 	public TGames (Long id, String title, String cover){
 		this.id = id;
 		this.title = title;
 		this.cover = cover;
-	}*/
+	}
+	
+	public TGames (Long id, String title, String cover, TStore store){
+		this.id = id;
+		this.title = title;
+		this.cover = cover;
+		this.store = store;
+	}
 	
 	public TGames (String title, String cover){
 		this.title = title;
